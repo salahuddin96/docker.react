@@ -1,8 +1,19 @@
 sudo: required
 services:
-  - docker
+ - docker
 before_install:
-  - docker build -t suleman_test -f Dockerfile.dev .
+ - docker build -t suleman_test -f Dockerfile.dev .
 
 script:
-  - docker run suleman_test npm run test -- --coverage
+ - docker run suleman_test npm run test -- --coverage
+deploy:
+ provider: elasticbeanstalk
+ region: "ap-south-1"
+ app: "first"
+ env: "First-env"
+ bucket_name: elasticbeanstalk-ap-south-1-557139634063
+ bucket_path: "first"
+ on:
+    branch: master
+ access_key_id: $AWS_Access_key
+ secret_access_key: $AWS_secret_key
